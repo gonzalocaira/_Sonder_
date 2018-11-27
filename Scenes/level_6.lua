@@ -81,7 +81,7 @@ function T:new(scene_mngr)
     self.bar.percentage = 20 
     self.bar:set(self.bar.percentage)
     
-    self.bar_run = Bar("run",125,35,200, 20,"")
+    self.bar_run = Bar("run",500,35,250, 20,"")
     self.em:add(self.bar_run)
     self.bar_changed_ = function(bar_run, value)
     self:on_bar_changed(bar_run, value) end
@@ -96,6 +96,7 @@ function T:new(scene_mngr)
     life_bar = love.graphics.newImage("Sprite/winter_life_bar_.png")
     Map_test3 = love.graphics.newImage("Map/myforest3.png")
     Sonder   = love.graphics.newImage("Map/sonder1.png")
+    winter_bar = love.graphics.newImage("Advice/winter_life_bar_.png")
     local snd_bear = love.audio.newSource("Sound/Ubermensch.wav","stream")
     crash = love.audio.newSource("Sound/crash.mp3","stream")
 	snd_bear:setLooping(true)
@@ -133,7 +134,7 @@ function T:update(dt)
         love.audio.play(snd_bear)
         camera:setPosition( self.p.fox_sprite.pos.x - (love.graphics.getWidth()/2), self.p.fox_sprite.pos.y - (love.graphics.getHeight()))
         self.bar.pos.x = 180 + camera.x
-        self.bar_run.pos.x = 180 + camera.x
+        self.bar_run.pos.x = 205 + camera.x
         s_pos = 5 + camera.x
 
         if (it == false) then
@@ -374,8 +375,11 @@ function T:draw()
     love.graphics.draw(sign,1100,400)
     love.graphics.draw(Sonder,s_pos,15)
     love.graphics.draw(life_bar,s_pos+72,20)
+
     self.super.draw(self)
-    
+    love.graphics.draw(sign,1100,400)
+    love.graphics.draw(Sonder,s_pos+6,24)
+    love.graphics.draw(winter_bar,s_pos-10,12) 
     camera:unset()
 end
 
