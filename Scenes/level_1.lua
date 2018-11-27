@@ -16,6 +16,10 @@ local button_R = require("Advice.button_run")
 local button_E = require("Advice.button_eat")
 local mess = require("Advice.message")
 
+local mess_bat = require("Advice.message_bat")
+local grape_fruit = require("../grape")
+
+
 require("lib.camera")
 
 local Map_test
@@ -29,6 +33,9 @@ function T:new(scene_mngr)
 
     camera:setBounds(0,0,1920*4,540)
     self.super.new(self,scene_mngr)
+    --Add grape fruit
+    self.u1 = grape_fruit()
+    self.em:add(self.u1)
     --Add Sonder
     self.p = Player()
     self.em:add(self.p)
@@ -56,6 +63,9 @@ function T:new(scene_mngr)
     self.a3 = apple()
     self.a3.spr.pos.x = 2650
     self.em:add(self.a3)
+
+    
+
     --Add health bar
     self.bar = Bar("health",125,35,200, 20, "20%")
     self.em:add(self.bar)
@@ -81,9 +91,23 @@ function T:new(scene_mngr)
     murcielagos = love.graphics.newImage("Advice/murcielagos.png")
     adelante = love.graphics.newImage("Advice/adelante.png")
 
+
+    alert1 = love.graphics.newImage("Advice/aviso_largo2.png")
+    alert2 = love.graphics.newImage("Advice/aviso_largo3.png")
+    alert3 = love.graphics.newImage("Advice/aviso_run.png")
+
+    vida_energia = love.graphics.newImage("Advice/vida_energia.png")
+    --prueba uva
+    planta_uva = love.graphics.newImage("Sprite/planta_uva.png")
+    --test life bar
+    bar_2 = love.graphics.newImage("Sprite/bar.png")
+    
     snd1 = love.audio.newSource("Sound/Forest_Ambience.mp3","stream")
     snd_forest = love.audio.newSource("Sound/Forest_Ambience.mp3","stream")
+    
+
     bar_2 = love.graphics.newImage("Advice/bar.png")
+
     snd1:setLooping(true)
     snd_forest:setLooping(true)
 end
@@ -197,6 +221,10 @@ function T:update(dt)
                 self.bar:set(self.bar.percentage + 10)
                 self.a3.remove = true
             end
+            if self.u1.remove == nil and self.u1 and U.AABBColl(eat, self.u1.spr:rect() ) then
+                self.bar:set(self.bar.percentage + 10)
+                self.u1.remove = true
+            end
         end
 
         if (self.bar.percentage <= 0) then
@@ -232,7 +260,9 @@ function T:update(dt)
         if (self.p.fox_sprite.pos.x >= (960*4)) then
     
             health.val(self.bar.percentage)
+
             self.bar:set(20)
+
             self.bar.text = "20%"
             self.p.fox_sprite.pos.x = 80
             self.p.fox_sprite.pos.y = 450 
@@ -277,21 +307,29 @@ function T:draw()
     love.graphics.draw(Map_test,1920,0)
     love.graphics.draw(Map_test,2880,0)
 
+    love.graphics.draw(alert1,900,100)
+    love.graphics.draw(alert2,500,100)
+    love.graphics.draw(alert3,1700,100)
+    love.graphics.draw(vida_energia,350,7)
+    love.graphics.draw(planta_uva,850,430)
+
     if self.p.fox_sprite.pos.x >= 0 and self.p.fox_sprite.pos.x <= 650 and s1 == true then
         butt:draw()
     end
-    if self.p.fox_sprite.pos.x >= 500 and self.p.fox_sprite.pos.x <=1000  then
+    if self.p.fox_sprite.pos.x >= 400 and self.p.fox_sprite.pos.x <=1000  then
         butt_E:draw()
         love.graphics.draw(alimentos,700,150)
     end
-    if self.p.fox_sprite.pos.x >= 900 and self.p.fox_sprite.pos.x <=1500  then
+    if self.p.fox_sprite.pos.x >= 00 and self.p.fox_sprite.pos.x <=1500  then
         butt_J:draw()
     end
-    if self.p.fox_sprite.pos.x >= 1200 and self.p.fox_sprite.pos.x <=1800  then
+    if self.p.fox_sprite.pos.x >= 1000 and self.p.fox_sprite.pos.x <=1800  then
         msg:draw()
     end
+
     if self.p.fox_sprite.pos.x >= 1500 and self.p.fox_sprite.pos.x <=2500  then
         love.graphics.draw(energia,1700,150)
+
         butt_R:draw()
     end
 
@@ -304,11 +342,13 @@ function T:draw()
     end
 
     self.super.draw(self)
+
     love.graphics.draw(Sonder,s_pos+6,24)
     love.graphics.draw(bar_2,s_pos-10,12) 
 
-   -- local r = self.p.fox_sprite:rect_(55,0,-110,-10)
-   -- love.graphics.rectangle("line",r.x,r.y,r.w,r.h)
+
+    local r = self.p.fox_sprite:rect_(55,0,-110,-10)
+    love.graphics.rectangle("line",r.x,r.y,r.w,r.h)
     camera:unset()
 end
 

@@ -90,6 +90,7 @@ function T:new(scene_mngr)
     --Map_test2 = love.graphics.newImage("Map/myforest2.png")
     bar_2 = love.graphics.newImage("Advice/bar.png")
     Sonder   = love.graphics.newImage("Map/sonder1.png")
+    
     snd_bear = love.audio.newSource("Sound/Ubermensch.wav","stream")
 	snd_bear:setLooping(true)
 end
@@ -273,8 +274,10 @@ function T:draw()
     love.graphics.draw(Map_test,2880,0)
     self.super.draw(self)
 
+
     love.graphics.draw(Sonder,s_pos+6,24)
     love.graphics.draw(bar_2,s_pos-10,12) 
+
     camera:unset()
 
 
